@@ -7,10 +7,26 @@
     "default_popup": "popup/popup.html",
     "default_icon": "images/icon.png"
   },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "downloads"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "dist/scripts/workers/background.js",
+    "type": "module"
+  },
   "content_scripts": [
     {
-      "matches": ["https://www.multimango.com/tasks/*"],
-      "js": ["scripts/tasks-script.js"]
+      "matches": ["https://www.multimango.com/*"],
+      "js": ["dist/scripts/content/multimango_tasks.js"]
+    },
+    {
+      "matches": ["https://ai.joinhandshake.com/annotations/fellow/task/*"],
+      "js": ["dist/scripts/content/handshake_tasks.js"]
     }
   ]
 }

@@ -1,4 +1,4 @@
-console.log("SCRIPT IS ALIVE!")
+console.log("Handshake AI Util Extension loaded into page");
 
 // Listen for URL changes without a full page reload
 let lastUrl = location.href;
