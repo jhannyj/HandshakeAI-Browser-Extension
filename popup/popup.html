@@ -1,13 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./popup.css" />
-    </head>
-    <body>
-        <h1>Hello Extensions</h1>
-        <script type="module" src="../dist/popup/popup.js"></script>
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Extension Popup</title>
+    <link rel="stylesheet" href="./popup.css" />
+</head>
+<body>
+
+<div class="header-action">
+    <button id="btn-submit" class="main-action-btn">SUBMIT</button>
+</div>
+
+<div class="disclaimer-notice">
+    This extension is not officially associated with Handshake, Handshake AI, or Multimango.
+</div>
+
+<div id="status-modal" style="display: none;">
+    <div class="modal-container">
+
+        <div id="modal-icon-circle">
+            <span id="modal-icon-text">!</span>
+        </div>
+
+        <div class="modal-body">
+            <h3 id="modal-title">Status Title</h3>
+            <p id="modal-message">Your message goes here.</p>
+        </div>
+
+        <button id="modal-close">Dismiss</button>
+    </div>
+</div>
+
+<div id="settings-trigger" class="settings-trigger">
+    <span id="trigger-text">Show Configuration</span>
+    <span id="trigger-icon">▼</span>
+</div>
+
+<div id="settings-wrapper" class="settings-wrapper hidden">
+
+    <div class="tabs">
+        <button class="tab-link active" data-tab="simple">Main</button>
+        <button class="tab-link" data-tab="advanced">Advanced</button>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div id="simple" class="tab-content active">
+
+            <div class="config-section">
+                <h3>RUN</h3>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>On Click</span>
+                        <div class="tooltip" data-tooltip="Trigger execution immediately upon clicking the extension icon when the active tab is a Multimango or Handshake AI url. To change settings, click the extension icon when the url is not applicable.">?</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="run-onclick">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="config-row disabled">
+                    <div class="label-group">
+                        <span>On Task Change</span>
+                        <div class="tooltip" data-tooltip="Automatically run when the contents of the task page changes. This is meant to detect when a task is submitted on Multinmago. However, !WARNING! page content changes can happen for a multitude of reason, so be cautious.">?</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="run-ontaskchange" disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>TASKS</h3>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Always Pick First</span>
+                        <div class="tooltip" data-tooltip="Force the extension to always select the first available task tab. When this is off, the extension prefers tasks from the active tab, but will default to first available task tab if there is no task in the active tab.">?</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="tasks-pickfirst">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Store Last Task</span>
+                        <div class="tooltip" data-tooltip="Store the url of the last Multimango task page that was closed. Use this url to select task if no Multimango task pages are open">?</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="tasks-rememberlast">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>QA FEEDBACKS</h3>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Store Ratings</span>
+                        <div class="tooltip" data-tooltip="Remember ratings from QA page and compare them to the QA score preview from the Multimango sidebar. Only update when changes occur">?</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="qa-rememberratings">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Screenshot</span>
+                        <div class="tooltip" data-tooltip="Download a rendering of the feedback page when rating update occurs">?</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="qa-screenshot">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="advanced" class="tab-content">
+            <div class="config-section">
+                <h3>Element Polling</h3>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Max Retries</span>
+                        <div class="tooltip" data-tooltip="Number of times to retry getting an element from a webpage. Increasing this can help if extension gets stuck due to Handshake website lag">?</div>
+                    </div>
+                    <input type="number" id="ep-maxretries" class="input-field">
+                </div>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Interval (MS)</span>
+                        <div class="tooltip" data-tooltip="Time to wait between element polling attempts. Increasing this can help if extension gets stuck due to Handshake website lag">?</div>
+                    </div>
+                    <input type="number" id="ep-interval" class="input-field">
+                </div>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Timeout</span>
+                        <div class="tooltip" data-tooltip="Time to wait for an element to be ready. Increasing this can help if extension gets stuck due to Handshake website lag">?</div>
+                    </div>
+                    <input type="number" id="ep-timeout" class="input-field">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>STORAGE</h3>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Ratings</span>
+                        <div class="tooltip" data-tooltip="Select storage medium for rating data.">?</div>
+                    </div>
+                    <select class="input-select" id="store-ratings">
+                        <option value="SYNC">SYNC</option>
+                        <option value="LOCAL">LOCAL</option>
+                        <option value="SESSION">SESSION</option>
+                        <option value="NONE">NONE</option>
+                    </select>
+                </div>
+                <div class="config-row">
+                    <div class="label-group">
+                        <span>Last Task Url</span>
+                        <div class="tooltip" data-tooltip="Select storage medium for last task references.">?</div>
+                    </div>
+                    <select class="input-select" id="store-lasttaskurl">
+                        <option value="SYNC">SYNC</option>
+                        <option value="LOCAL">LOCAL</option>
+                        <option value="SESSION">SESSION</option>
+                        <option value="NONE">NONE</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="footer-action">
+                <button id="btn-reset" class="secondary-action-btn">Reset to Default</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="./popup.ts"></script>
+
+</body>
 </html>

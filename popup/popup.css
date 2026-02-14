@@ -1,0 +1,321 @@
+:root {
+    --primary-neon: #D4FF33;
+    --primary-dark: #0A1414;
+    --secondary-dark: #162222;
+    --text-main: #ffffff;
+    --text-muted: #889999;
+    --border-color: #2A3A3A;
+    --danger: #FF4444;
+}
+
+/* --- Global Scrollbar Styling --- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #334400;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-neon);
+}
+
+/* --- Layout Structure --- */
+html, body {
+    width: 350px;
+    background-color: var(--primary-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Disables the outer scrollbar */
+}
+
+/* --- Header & Submit --- */
+.header-action {
+    padding: 15px;
+    background: var(--primary-dark);
+}
+
+.main-action-btn {
+    width: 100%;
+    background-color: var(--primary-neon);
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding: 15px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-style: italic;
+    transition: transform 0.1s, filter 0.2s;
+}
+.main-action-btn:hover { filter: brightness(1.1); }
+.main-action-btn:active { transform: scale(0.98); }
+
+/* --- Reveal Trigger --- */
+.settings-trigger {
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--secondary-dark);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+.settings-trigger:hover { color: var(--primary-neon); }
+
+/* --- Config Area (Collapsible & Scrollable) --- */
+.settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: 480px; /* Adjust this to control max extension height */
+}
+
+.settings-wrapper.hidden { display: none; }
+
+.content-wrapper {
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto; /* Only allow scrolling here */
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+}
+
+/* --- Tabs --- */
+.tabs {
+    display: flex;
+    background: var(--primary-dark);
+}
+.tab-link {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.tab-link.active {
+    color: var(--primary-neon);
+    border-bottom: 2px solid var(--primary-neon);
+}
+
+/* --- Config Sections --- */
+.config-section {
+    margin-bottom: 15px;
+    background: var(--secondary-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+}
+h3 {
+    margin: 0 0 12px 0;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 4px;
+}
+.config-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.label-group { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+
+/* --- Tooltips --- */
+.tooltip {
+    width: 14px; height: 14px;
+    background: var(--border-color);
+    color: var(--text-muted);
+    border-radius: 50%;
+    font-size: 9px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: help;
+    position: relative;
+}
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute; left: 20px; top: -5px;
+    background: #222; color: #fff;
+    padding: 6px 10px; border-radius: 4px;
+    width: 160px; font-size: 0.75rem; z-index: 10;
+    border: 1px solid var(--border-color);
+}
+
+/* --- Inputs --- */
+.toggle-switch { width: 36px; height: 18px; position: relative; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333; border-radius: 20px; transition: .3s;
+}
+.slider:before {
+    position: absolute; content: ""; height: 12px; width: 12px;
+    left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .3s;
+}
+input:checked + .slider { background-color: var(--primary-neon); }
+input:checked + .slider:before { transform: translateX(18px); background: var(--primary-dark); }
+
+.input-field, .input-select {
+    background: var(--primary-dark);
+    border: 1px solid var(--border-color);
+    color: var(--primary-neon);
+    padding: 4px 8px;
+    border-radius: 4px;
+    width: 80px ;
+    font-family: monospace;
+    text-align: right;
+}
+.input-select { width: auto; text-align: left; cursor: pointer; }
+
+/* --- Reset --- */
+.footer-action { margin-top: 10px; }
+.secondary-action-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+.secondary-action-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+/* Animation */
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.2s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- Disabled State --- */
+.config-row.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* Prevents clicking/interaction */
+    cursor: not-allowed;
+    filter: grayscale(1); /* Makes the neon colors look grey */
+}
+
+.config-row.disabled .label-group span {
+    color: var(--text-muted);
+    text-decoration: line-through; /* Optional: adds extra clarity */
+}
+
+/* Ensure tooltips still don't show or look disabled */
+.config-row.disabled .tooltip {
+    display: none;
+}
+
+.main-action-btn.success {
+    background-color: #00FF88; /* Success Green */
+    box-shadow: 0 0 15px #00FF88;
+}
+
+.main-action-btn.error {
+    background-color: var(--danger); /* #FF4444 from your variables */
+    color: white;
+    box-shadow: 0 0 15px var(--danger);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Status Modal --- */
+#status-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.85); /* Darker backdrop */
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-container {
+    width: 100%;
+    max-width: 280px;
+    background: var(--secondary-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+#modal-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--primary-neon);
+    color: var(--primary-neon);
+}
+
+/* Success/Error Variants for the Icon */
+#status-modal.success #modal-icon-circle { border-color: #00FF88; color: #00FF88; }
+#status-modal.error #modal-icon-circle { border-color: var(--danger); color: var(--danger); }
+
+#modal-title {
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 8px 0;
+}
+
+#modal-message {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+#modal-close {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--primary-neon);
+    color: var(--primary-neon);
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#modal-close:hover {
+    background: var(--primary-neon);
+    color: var(--primary-dark);
+}
+
+.disclaimer-notice {
+    padding: 0 20px 10px 20px; /* Aligns with the side padding of buttons */
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.4;
+    font-style: italic;
+    opacity: 0.8;
+}

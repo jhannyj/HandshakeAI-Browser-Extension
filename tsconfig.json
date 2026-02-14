@@ -7,7 +7,9 @@
       "ESNext"
     ],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "noEmit": true,
     "skipLibCheck": true,
     "types": [
       "chrome",
